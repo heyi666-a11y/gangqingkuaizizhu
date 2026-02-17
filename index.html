@@ -441,23 +441,39 @@
             display: block;
         }
 
-        /* 游戏屏幕始终横屏显示 */
+        /* 所有屏幕始终横屏显示 */
         @media (max-width: 900px) {
-            #gameScreen.active {
+            .screen.active {
                 position: fixed;
                 top: 0;
                 left: 0;
                 width: 100vw;
                 height: 100vh;
                 overflow: hidden;
+                z-index: 5;
             }
             
             /* 竖屏时旋转90度 */
             @media (orientation: portrait) {
-                #gameScreen.active {
+                .screen.active {
                     transform: rotate(90deg);
                     transform-origin: center center;
                 }
+            }
+        }
+        
+        /* 安卓手机尺寸优化 */
+        @media (max-width: 480px) {
+            .screen.active {
+                transform: rotate(90deg) scale(0.9);
+                transform-origin: center center;
+            }
+        }
+        
+        @media (max-width: 360px) {
+            .screen.active {
+                transform: rotate(90deg) scale(0.8);
+                transform-origin: center center;
             }
         }
 
@@ -1922,7 +1938,7 @@
                 backgroundMusic.chord1.start();
                 backgroundMusic.chord2.start();
 
-                backgroundMusicVolume = 0.15;
+                backgroundMusicVolume = 0.4;
             }
         }
 
@@ -2666,7 +2682,7 @@
             if (key) key.classList.remove('pressed');
         }
 
-        function playTone(freq, duration, volume = 0.3) {
+        function playTone(freq, duration, volume = 0.8) {
             if (audioContext.state === 'suspended') audioContext.resume();
             
             const oscillator = audioContext.createOscillator();
