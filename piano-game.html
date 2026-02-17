@@ -334,6 +334,22 @@
             margin-top: 10px;
         }
 
+        .rotate-dismiss-btn {
+            margin-top: 30px;
+            padding: 15px 40px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 25px;
+            color: #fff;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .rotate-dismiss-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
         @media (max-width: 768px) and (orientation: portrait) {
             .rotate-hint {
                 display: flex;
@@ -423,6 +439,26 @@
 
         .screen.active {
             display: block;
+        }
+
+        /* 游戏屏幕始终横屏显示 */
+        @media (max-width: 900px) {
+            #gameScreen.active {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                overflow: hidden;
+            }
+            
+            /* 竖屏时旋转90度 */
+            @media (orientation: portrait) {
+                #gameScreen.active {
+                    transform: rotate(90deg);
+                    transform-origin: center center;
+                }
+            }
         }
 
         .lobby-container {
@@ -1622,12 +1658,7 @@
     </style>
 </head>
 <body>
-    <!-- 横屏提示 -->
-    <div class="rotate-hint" id="rotateHint">
-        <div class="rotate-icon">📱</div>
-        <div class="rotate-text">请横屏游玩<br>体验更佳</div>
-        <div class="rotate-subtext">Please rotate your device to landscape mode</div>
-    </div>
+    <!-- 移除横屏提示，直接进入游戏 -->
 
     <div class="splash-screen" id="splashScreen">
         <div class="splash-background"></div>
@@ -2002,21 +2033,7 @@
             return false;
         });
 
-        // 横屏提示控制
-        function checkOrientation() {
-            const rotateHint = document.getElementById('rotateHint');
-            if (window.innerWidth <= 768 && window.innerHeight > window.innerWidth) {
-                rotateHint.classList.add('show');
-            } else {
-                rotateHint.classList.remove('show');
-            }
-        }
-
-        window.addEventListener('resize', checkOrientation);
-        window.addEventListener('orientationchange', function() {
-            setTimeout(checkOrientation, 100);
-        });
-        checkOrientation();
+        // 移除横屏提示，直接允许游戏
 
         const noteFreqs = {
             0: 261.63,
@@ -3810,6 +3827,11 @@
             
             isPlaying = true;
             document.getElementById('startOverlay').style.display = 'none';
+            
+            // 尝试锁定为横屏
+            if (screen.orientation && screen.orientation.lock) {
+                screen.orientation.lock('landscape').catch(() => {});
+            }
             
             gameStartTime = Date.now();
             
