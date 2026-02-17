@@ -459,14 +459,104 @@
             }
         }
         
-        /* 安卓手机尺寸优化 */
+        /* 安卓手机尺寸优化 - 全面适配 */
         @media (max-width: 480px) {
             .screen.active {
                 overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
             }
             
             #editorScreen.active {
                 overflow-y: auto;
+            }
+            
+            /* 头部按钮优化 - 手机端改为两行 */
+            .header {
+                padding: 8px;
+                flex-wrap: wrap;
+                gap: 5px;
+            }
+            
+            .header h1 {
+                width: 100%;
+                font-size: 1.1rem;
+                margin-bottom: 5px;
+                text-align: center;
+            }
+            
+            .header-actions {
+                width: 100%;
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 5px;
+            }
+            
+            .header-btn, .leaderboard-btn, .music-btn, .sfx-btn, .admin-btn {
+                padding: 6px 10px;
+                font-size: 0.75rem;
+            }
+            
+            .user-info {
+                font-size: 0.75rem;
+                margin-right: 5px;
+            }
+            
+            /* 搜索框优化 */
+            .search-container {
+                padding: 10px;
+            }
+            
+            .search-input {
+                padding: 8px 12px;
+                font-size: 0.9rem;
+            }
+            
+            .search-btn {
+                padding: 8px 12px;
+                font-size: 0.85rem;
+            }
+            
+            /* 歌曲卡片优化 */
+            .song-card {
+                padding: 10px;
+                margin-bottom: 8px;
+            }
+            
+            .song-card .title {
+                font-size: 0.95rem;
+            }
+            
+            /* 编辑器优化 */
+            .editor-header {
+                padding: 8px;
+                gap: 5px;
+            }
+            
+            .editor-header input {
+                padding: 6px 8px;
+                font-size: 0.8rem;
+            }
+            
+            .duration-btn, .editor-btn {
+                padding: 5px 8px;
+                font-size: 0.75rem;
+            }
+            
+            /* 性能优化 - 减少动画 */
+            * {
+                animation: none !important;
+                transition: none !important;
+            }
+            
+            /* 减少阴影效果提升性能 */
+            .splash-title, .title-text {
+                text-shadow: none;
+            }
+            
+            /* 减少模糊效果 */
+            .blur {
+                backdrop-filter: none;
             }
         }
 
